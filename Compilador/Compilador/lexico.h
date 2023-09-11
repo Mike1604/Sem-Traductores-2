@@ -15,6 +15,7 @@ private:
         {"int", 4},
         {"float", 4},
         {"void", 4},
+        {"string",4},
         {"+", 5},
         {"-", 5},
         {"*", 6},
@@ -39,7 +40,7 @@ private:
         {"while", 20},
         {"return", 21},
         {"else", 22},
-        {"$", 23},
+        {"$", 23}
     };
 public:
     Lexico();

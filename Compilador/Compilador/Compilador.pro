@@ -11,11 +11,15 @@ CONFIG += c++11
 SOURCES += \
     lexico.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    sintactico.cpp \
+    sintacticonode.cpp
 
 HEADERS += \
     lexico.h \
-    mainwindow.h
+    mainwindow.h \
+    sintactico.h \
+    sintacticonode.h
 
 FORMS += \
     mainwindow.ui
