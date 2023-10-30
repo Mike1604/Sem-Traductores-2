@@ -18,8 +18,6 @@ vector<pair<string,int>>  Lexico::read(){
     int i=-1;
     for(auto e:this->entrada){//Here I read the string and then separate it into different tokens
         i++;
-        QString contenido = QString::fromStdString(token);
-        qDebug()<<"##&&&& Nigga? Token: "<<contenido<<" e: "<<e;
         string aux=""; aux+=e;
         if(e=='$' && token==""){
             int code = checkToken(aux);
@@ -28,7 +26,6 @@ vector<pair<string,int>>  Lexico::read(){
         if(isWhitespace(e) && !canBeString){continue;};
         if(canBeNumber){
             QString contenido = QString::fromStdString(token);
-            qDebug()<<"##CanBeNumber Token: "<<contenido<<" e: "<<e;
             string a ="";
             if(!isDigit(e) && isLetter(e) && !isWhitespace(e)){
                 canBeNumber=false;
@@ -63,7 +60,6 @@ vector<pair<string,int>>  Lexico::read(){
         }
         if(this->reserved.count(aux) != 0){
             QString contenido = QString::fromStdString(token);
-            qDebug()<<"####Reserved? e: " << e <<" token:"<< contenido;
             if((e=='!' && this->entrada[i+1] == '=') || (e=='=' && this->entrada[i+1] == '=')){
                 int code = checkToken(token);
                 ans.push_back({token, code});
@@ -89,7 +85,6 @@ vector<pair<string,int>>  Lexico::read(){
                 ans.push_back({aux, code});
                 continue;
             }
-            qDebug()<<"SEXOO?";
             int code = checkToken(token);
             ans.push_back({token, code});
             code = checkToken(aux);
@@ -119,11 +114,6 @@ vector<pair<string,int>>  Lexico::read(){
         }
         if(isdigit(e) || isInteger(token) || isReal(token)){
             canBeNumber = true;
-            QString contenido = QString::fromStdString(token);
-            qDebug()<<"isDigit " << isdigit(e);
-            qDebug()<<"isInteger "<< isInteger(token);
-            qDebug()<<"isReal "<<isReal(token);
-            qDebug()<<"E: "<<e<<" Token: "<<contenido;
         }
     }
     return ans;

@@ -1,9 +1,10 @@
 #include "sintacticonode.h"
 
-SintacticoNode::SintacticoNode(string token, int state)
+SintacticoNode::SintacticoNode(string token, int state, bool isRule)
 {
     this->token = token;
     this->state = state;
+    this->isRule = isRule;
 }
 string SintacticoNode::toString(){
     string ans = "";

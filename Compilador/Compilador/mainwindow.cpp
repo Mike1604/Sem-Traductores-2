@@ -136,9 +136,6 @@ void MainWindow::on_pushButton_clicked()
     vector<string> input = syntacticAnalyzer.getInput();
     vector<string> pila = syntacticAnalyzer.getPila();
     vector<string> output = syntacticAnalyzer.getOutput();
-    qDebug()<<input.size();
-    qDebug()<<pila.size();
-    qDebug()<<output.size();
     ui->sintacticTable->setRowCount(output.size());
     ui->sintacticTable->horizontalHeader()->setStyleSheet(styleSheet);
     for(int i=0; i<output.size(); i++){
@@ -149,6 +146,14 @@ void MainWindow::on_pushButton_clicked()
         ui->sintacticTable->setItem(i,0, new QTableWidgetItem(auxPila));
         ui->sintacticTable->setItem(i,2, new QTableWidgetItem(auxOut));
     }
+    string treeString  = syntacticAnalyzer.getTreeToString();
 
+    ui->textBrowser->setPlainText(QString::fromStdString(treeString));
+    for(auto e:syntacticAnalyzer.getTree()){
+        qDebug() << "Index: "<< e.getIndex() << "Token: " << QString::fromStdString(e.getToken()) ;
+        for(auto g:e.getNexts()){
+            qDebug() << "Next: "<< g;
+        }
+    }
 }
 

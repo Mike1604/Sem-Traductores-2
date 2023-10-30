@@ -5,16 +5,22 @@
 #include <vector>
 #include <map>
 #include "sintacticonode.h"
+#include "treenode.h"
+#include <stack>
 using namespace std;
 class Sintactico
 {
 private:
-    vector<SintacticoNode> stack;
+    vector<SintacticoNode> stackNodes;
+    vector<TreeNode> rulesStack;
     vector<pair<string,int>> tokens;
     vector<string> output;
     vector<string> input;
     vector<string> pila;
+    TreeNode rootSintactico;
+    vector<TreeNode> Tree;
     int actualState;
+    bool correctAnalice =false;
 
     vector<vector<int>> lr1={
                     {0,	0,	0,	0,	5,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	-3,	1,	2,	3,	4,	0,	6,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,},
@@ -253,6 +259,9 @@ public:
     vector<string> getOutput();
     vector<string> getInput();
     vector<string> getPila();
+    void setTreeNode(string rule);
+    vector<TreeNode> getTree();
+    string getTreeToString();
 };
 
 #endif // SINTACTICO_H

@@ -18,6 +18,7 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableWidget>
+#include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QWidget>
 
@@ -39,6 +40,8 @@ public:
     QWidget *widget;
     QLabel *label_5;
     QTableWidget *sintacticTable;
+    QWidget *tab_3;
+    QTextBrowser *textBrowser;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -242,6 +245,17 @@ public:
         sintacticTable->verticalHeader()->setProperty("showSortIndicator", QVariant(false));
         sintacticTable->verticalHeader()->setStretchLastSection(false);
         tabWidget->addTab(widget, QString());
+        tab_3 = new QWidget();
+        tab_3->setObjectName(QString::fromUtf8("tab_3"));
+        textBrowser = new QTextBrowser(tab_3);
+        textBrowser->setObjectName(QString::fromUtf8("textBrowser"));
+        textBrowser->setGeometry(QRect(10, 30, 1221, 871));
+        textBrowser->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
+"font-dizr: 24px;"));
+        textBrowser->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        textBrowser->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+        textBrowser->setLineWrapMode(QTextEdit::NoWrap);
+        tabWidget->addTab(tab_3, QString());
         MainWindow->setCentralWidget(centralwidget);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -283,6 +297,7 @@ public:
         QTableWidgetItem *___qtablewidgetitem5 = sintacticTable->horizontalHeaderItem(2);
         ___qtablewidgetitem5->setText(QCoreApplication::translate("MainWindow", "Salida", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(widget), QCoreApplication::translate("MainWindow", "Sintactico", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab_3), QCoreApplication::translate("MainWindow", "Arbol Sintactico", nullptr));
     } // retranslateUi
 
 };

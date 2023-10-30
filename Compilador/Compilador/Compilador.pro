@@ -13,13 +13,15 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     sintactico.cpp \
-    sintacticonode.cpp
+    sintacticonode.cpp \
+    treenode.cpp
 
 HEADERS += \
     lexico.h \
     mainwindow.h \
     sintactico.h \
-    sintacticonode.h
+    sintacticonode.h \
+    treenode.h
 
 FORMS += \
     mainwindow.ui

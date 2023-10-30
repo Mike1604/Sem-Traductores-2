@@ -7,8 +7,9 @@ class SintacticoNode
 private:
     string token;
     int state;
+    bool isRule;
 public:
-    SintacticoNode(string token, int state);
+    SintacticoNode(string token, int state, bool isRule);
     string toString();
     string getToken();
     int getState();
