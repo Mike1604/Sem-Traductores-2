@@ -9,19 +9,23 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    funcnodes.cpp \
     lexico.cpp \
     main.cpp \
     mainwindow.cpp \
     sintactico.cpp \
     sintacticonode.cpp \
-    treenode.cpp
+    treenode.cpp \
+    variablesnode.cpp
 
 HEADERS += \
+    funcnodes.h \
     lexico.h \
     mainwindow.h \
     sintactico.h \
     sintacticonode.h \
-    treenode.h
+    treenode.h \
+    variablesnode.h
 
 FORMS += \
     mainwindow.ui

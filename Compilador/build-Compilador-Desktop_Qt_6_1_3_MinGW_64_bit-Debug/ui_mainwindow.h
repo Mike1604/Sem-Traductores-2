@@ -42,6 +42,13 @@ public:
     QTableWidget *sintacticTable;
     QWidget *tab_3;
     QTextBrowser *textBrowser;
+    QWidget *tab_4;
+    QTableWidget *sintacticTable_2;
+    QLabel *label_6;
+    QTableWidget *sintacticTable_3;
+    QLabel *label_7;
+    QTextBrowser *textBrowser_2;
+    QLabel *label_9;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -188,7 +195,7 @@ public:
         widget->setObjectName(QString::fromUtf8("widget"));
         label_5 = new QLabel(widget);
         label_5->setObjectName(QString::fromUtf8("label_5"));
-        label_5->setGeometry(QRect(10, 30, 191, 41));
+        label_5->setGeometry(QRect(440, 0, 191, 41));
         label_5->setFont(font1);
         label_5->setStyleSheet(QString::fromUtf8("font: 75 12pt \"Verdana\";\n"
 "color: #EEEEEE;"));
@@ -203,7 +210,7 @@ public:
         QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
         sintacticTable->setHorizontalHeaderItem(2, __qtablewidgetitem5);
         sintacticTable->setObjectName(QString::fromUtf8("sintacticTable"));
-        sintacticTable->setGeometry(QRect(210, 30, 981, 721));
+        sintacticTable->setGeometry(QRect(10, 40, 1221, 871));
         QPalette palette1;
         palette1.setBrush(QPalette::Active, QPalette::Button, brush);
         palette1.setBrush(QPalette::Active, QPalette::Text, brush1);
@@ -236,6 +243,9 @@ public:
         font3.setBold(false);
         sintacticTable->setFont(font3);
         sintacticTable->setStyleSheet(QString::fromUtf8(""));
+        sintacticTable->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+        sintacticTable->setAutoScrollMargin(10);
+        sintacticTable->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
         sintacticTable->horizontalHeader()->setMinimumSectionSize(35);
         sintacticTable->horizontalHeader()->setDefaultSectionSize(200);
         sintacticTable->horizontalHeader()->setStretchLastSection(true);
@@ -256,6 +266,137 @@ public:
         textBrowser->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         textBrowser->setLineWrapMode(QTextEdit::NoWrap);
         tabWidget->addTab(tab_3, QString());
+        tab_4 = new QWidget();
+        tab_4->setObjectName(QString::fromUtf8("tab_4"));
+        sintacticTable_2 = new QTableWidget(tab_4);
+        if (sintacticTable_2->columnCount() < 3)
+            sintacticTable_2->setColumnCount(3);
+        QTableWidgetItem *__qtablewidgetitem6 = new QTableWidgetItem();
+        sintacticTable_2->setHorizontalHeaderItem(0, __qtablewidgetitem6);
+        QTableWidgetItem *__qtablewidgetitem7 = new QTableWidgetItem();
+        sintacticTable_2->setHorizontalHeaderItem(1, __qtablewidgetitem7);
+        QTableWidgetItem *__qtablewidgetitem8 = new QTableWidgetItem();
+        sintacticTable_2->setHorizontalHeaderItem(2, __qtablewidgetitem8);
+        sintacticTable_2->setObjectName(QString::fromUtf8("sintacticTable_2"));
+        sintacticTable_2->setGeometry(QRect(20, 80, 581, 441));
+        QPalette palette2;
+        palette2.setBrush(QPalette::Active, QPalette::Button, brush);
+        palette2.setBrush(QPalette::Active, QPalette::Text, brush1);
+        palette2.setBrush(QPalette::Active, QPalette::ButtonText, brush1);
+        palette2.setBrush(QPalette::Active, QPalette::Base, brush);
+        palette2.setBrush(QPalette::Active, QPalette::Window, brush);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette2.setBrush(QPalette::Active, QPalette::PlaceholderText, brush2);
+#endif
+        palette2.setBrush(QPalette::Inactive, QPalette::Button, brush);
+        palette2.setBrush(QPalette::Inactive, QPalette::Text, brush1);
+        palette2.setBrush(QPalette::Inactive, QPalette::ButtonText, brush1);
+        palette2.setBrush(QPalette::Inactive, QPalette::Base, brush);
+        palette2.setBrush(QPalette::Inactive, QPalette::Window, brush);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette2.setBrush(QPalette::Inactive, QPalette::PlaceholderText, brush2);
+#endif
+        palette2.setBrush(QPalette::Disabled, QPalette::Button, brush);
+        palette2.setBrush(QPalette::Disabled, QPalette::Text, brush3);
+        palette2.setBrush(QPalette::Disabled, QPalette::ButtonText, brush3);
+        palette2.setBrush(QPalette::Disabled, QPalette::Base, brush);
+        palette2.setBrush(QPalette::Disabled, QPalette::Window, brush);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette2.setBrush(QPalette::Disabled, QPalette::PlaceholderText, brush4);
+#endif
+        sintacticTable_2->setPalette(palette2);
+        sintacticTable_2->setFont(font3);
+        sintacticTable_2->setStyleSheet(QString::fromUtf8(""));
+        sintacticTable_2->horizontalHeader()->setMinimumSectionSize(35);
+        sintacticTable_2->horizontalHeader()->setDefaultSectionSize(179);
+        sintacticTable_2->horizontalHeader()->setStretchLastSection(true);
+        sintacticTable_2->verticalHeader()->setCascadingSectionResizes(false);
+        sintacticTable_2->verticalHeader()->setMinimumSectionSize(19);
+        sintacticTable_2->verticalHeader()->setDefaultSectionSize(30);
+        sintacticTable_2->verticalHeader()->setHighlightSections(true);
+        sintacticTable_2->verticalHeader()->setProperty("showSortIndicator", QVariant(false));
+        sintacticTable_2->verticalHeader()->setStretchLastSection(false);
+        label_6 = new QLabel(tab_4);
+        label_6->setObjectName(QString::fromUtf8("label_6"));
+        label_6->setGeometry(QRect(190, 20, 191, 41));
+        label_6->setFont(font1);
+        label_6->setStyleSheet(QString::fromUtf8("font: 75 12pt \"Verdana\";\n"
+"color: #EEEEEE;"));
+        label_6->setAlignment(Qt::AlignCenter);
+        sintacticTable_3 = new QTableWidget(tab_4);
+        if (sintacticTable_3->columnCount() < 3)
+            sintacticTable_3->setColumnCount(3);
+        QTableWidgetItem *__qtablewidgetitem9 = new QTableWidgetItem();
+        sintacticTable_3->setHorizontalHeaderItem(0, __qtablewidgetitem9);
+        QTableWidgetItem *__qtablewidgetitem10 = new QTableWidgetItem();
+        sintacticTable_3->setHorizontalHeaderItem(1, __qtablewidgetitem10);
+        QTableWidgetItem *__qtablewidgetitem11 = new QTableWidgetItem();
+        sintacticTable_3->setHorizontalHeaderItem(2, __qtablewidgetitem11);
+        sintacticTable_3->setObjectName(QString::fromUtf8("sintacticTable_3"));
+        sintacticTable_3->setGeometry(QRect(640, 80, 581, 441));
+        QPalette palette3;
+        palette3.setBrush(QPalette::Active, QPalette::Button, brush);
+        palette3.setBrush(QPalette::Active, QPalette::Text, brush1);
+        palette3.setBrush(QPalette::Active, QPalette::ButtonText, brush1);
+        palette3.setBrush(QPalette::Active, QPalette::Base, brush);
+        palette3.setBrush(QPalette::Active, QPalette::Window, brush);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette3.setBrush(QPalette::Active, QPalette::PlaceholderText, brush2);
+#endif
+        palette3.setBrush(QPalette::Inactive, QPalette::Button, brush);
+        palette3.setBrush(QPalette::Inactive, QPalette::Text, brush1);
+        palette3.setBrush(QPalette::Inactive, QPalette::ButtonText, brush1);
+        palette3.setBrush(QPalette::Inactive, QPalette::Base, brush);
+        palette3.setBrush(QPalette::Inactive, QPalette::Window, brush);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette3.setBrush(QPalette::Inactive, QPalette::PlaceholderText, brush2);
+#endif
+        palette3.setBrush(QPalette::Disabled, QPalette::Button, brush);
+        palette3.setBrush(QPalette::Disabled, QPalette::Text, brush3);
+        palette3.setBrush(QPalette::Disabled, QPalette::ButtonText, brush3);
+        palette3.setBrush(QPalette::Disabled, QPalette::Base, brush);
+        palette3.setBrush(QPalette::Disabled, QPalette::Window, brush);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette3.setBrush(QPalette::Disabled, QPalette::PlaceholderText, brush4);
+#endif
+        sintacticTable_3->setPalette(palette3);
+        sintacticTable_3->setFont(font3);
+        sintacticTable_3->setStyleSheet(QString::fromUtf8(""));
+        sintacticTable_3->horizontalHeader()->setMinimumSectionSize(35);
+        sintacticTable_3->horizontalHeader()->setDefaultSectionSize(179);
+        sintacticTable_3->horizontalHeader()->setStretchLastSection(true);
+        sintacticTable_3->verticalHeader()->setCascadingSectionResizes(false);
+        sintacticTable_3->verticalHeader()->setMinimumSectionSize(19);
+        sintacticTable_3->verticalHeader()->setDefaultSectionSize(30);
+        sintacticTable_3->verticalHeader()->setHighlightSections(true);
+        sintacticTable_3->verticalHeader()->setProperty("showSortIndicator", QVariant(false));
+        sintacticTable_3->verticalHeader()->setStretchLastSection(false);
+        label_7 = new QLabel(tab_4);
+        label_7->setObjectName(QString::fromUtf8("label_7"));
+        label_7->setGeometry(QRect(820, 20, 191, 41));
+        label_7->setFont(font1);
+        label_7->setStyleSheet(QString::fromUtf8("font: 75 12pt \"Verdana\";\n"
+"color: #EEEEEE;"));
+        label_7->setAlignment(Qt::AlignCenter);
+        textBrowser_2 = new QTextBrowser(tab_4);
+        textBrowser_2->setObjectName(QString::fromUtf8("textBrowser_2"));
+        textBrowser_2->setGeometry(QRect(20, 570, 1201, 351));
+        QFont font4;
+        font4.setPointSize(16);
+        textBrowser_2->setFont(font4);
+        textBrowser_2->setStyleSheet(QString::fromUtf8("color: rgb(170, 0, 0);\n"
+"font-dizr: 24px;"));
+        textBrowser_2->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        textBrowser_2->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        textBrowser_2->setLineWrapMode(QTextEdit::NoWrap);
+        label_9 = new QLabel(tab_4);
+        label_9->setObjectName(QString::fromUtf8("label_9"));
+        label_9->setGeometry(QRect(510, 530, 221, 31));
+        label_9->setFont(font1);
+        label_9->setStyleSheet(QString::fromUtf8("font: 75 12pt \"Verdana\";\n"
+"color: #EEEEEE;"));
+        label_9->setAlignment(Qt::AlignCenter);
+        tabWidget->addTab(tab_4, QString());
         MainWindow->setCentralWidget(centralwidget);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -298,6 +439,22 @@ public:
         ___qtablewidgetitem5->setText(QCoreApplication::translate("MainWindow", "Salida", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(widget), QCoreApplication::translate("MainWindow", "Sintactico", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QCoreApplication::translate("MainWindow", "Arbol Sintactico", nullptr));
+        QTableWidgetItem *___qtablewidgetitem6 = sintacticTable_2->horizontalHeaderItem(0);
+        ___qtablewidgetitem6->setText(QCoreApplication::translate("MainWindow", "Variable", nullptr));
+        QTableWidgetItem *___qtablewidgetitem7 = sintacticTable_2->horizontalHeaderItem(1);
+        ___qtablewidgetitem7->setText(QCoreApplication::translate("MainWindow", "Tipo", nullptr));
+        QTableWidgetItem *___qtablewidgetitem8 = sintacticTable_2->horizontalHeaderItem(2);
+        ___qtablewidgetitem8->setText(QCoreApplication::translate("MainWindow", "Ambito", nullptr));
+        label_6->setText(QCoreApplication::translate("MainWindow", "Tabla de variables", nullptr));
+        QTableWidgetItem *___qtablewidgetitem9 = sintacticTable_3->horizontalHeaderItem(0);
+        ___qtablewidgetitem9->setText(QCoreApplication::translate("MainWindow", "Funcion", nullptr));
+        QTableWidgetItem *___qtablewidgetitem10 = sintacticTable_3->horizontalHeaderItem(1);
+        ___qtablewidgetitem10->setText(QCoreApplication::translate("MainWindow", "Tipo", nullptr));
+        QTableWidgetItem *___qtablewidgetitem11 = sintacticTable_3->horizontalHeaderItem(2);
+        ___qtablewidgetitem11->setText(QCoreApplication::translate("MainWindow", "Parametros", nullptr));
+        label_7->setText(QCoreApplication::translate("MainWindow", "Tabla de funciones", nullptr));
+        label_9->setText(QCoreApplication::translate("MainWindow", "Mensajes de errores", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab_4), QCoreApplication::translate("MainWindow", "Semantico", nullptr));
     } // retranslateUi
 
 };

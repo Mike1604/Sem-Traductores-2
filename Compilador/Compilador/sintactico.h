@@ -5,6 +5,8 @@
 #include <vector>
 #include <map>
 #include "sintacticonode.h"
+#include "variablesnode.h"
+#include "funcnodes.h"
 #include "treenode.h"
 #include <stack>
 using namespace std;
@@ -21,7 +23,8 @@ private:
     vector<TreeNode> Tree;
     int actualState;
     bool correctAnalice =false;
-
+    map<string, variablesNode> variables;
+    map<string, funcNodes> functions;
     vector<vector<int>> lr1={
                     {0,	0,	0,	0,	5,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	-3,	1,	2,	3,	4,	0,	6,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,},
                     {0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	-1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,},
@@ -166,7 +169,7 @@ private:
             {"R20",{2,"<Sentencias>"}},
             {"R21",{4,"<Sentencia>"}},
             {"R22",{7,"<Sentencia>"}},
-            {"R23",{6,"<Sentencia>"}},
+            {"R23",{5,"<Sentencia>"}},
             {"R24",{3,"<Sentencia>"}},
             {"R25",{2,"<Sentencia>"}},
             {"R26",{0,"<Otro>"}},
@@ -262,6 +265,12 @@ public:
     void setTreeNode(string rule);
     vector<TreeNode> getTree();
     string getTreeToString();
+    string semanticAnalysis();
+    void DefVarSemtantic(int next, string type, string ambito, string& errors);
+    map<string, variablesNode> getVariablesTable();
+    void DefFuncSemtantic(int next, string id, string& errors);
+    map<string, funcNodes> getFunctionsTable();
+    void clearTables();
 };
 
 #endif // SINTACTICO_H

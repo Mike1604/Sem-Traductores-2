@@ -3,6 +3,9 @@
 #include <iostream>
 #include "lexico.h"
 #include "sintactico.h"
+#include <QMessageBox>
+#include <QScrollBar>
+
 
 using namespace std;
 MainWindow::MainWindow(QWidget *parent)
@@ -136,6 +139,11 @@ void MainWindow::on_pushButton_clicked()
     vector<string> input = syntacticAnalyzer.getInput();
     vector<string> pila = syntacticAnalyzer.getPila();
     vector<string> output = syntacticAnalyzer.getOutput();
+
+    QScrollBar* horizontalScrollBar = ui->sintacticTable->horizontalScrollBar();
+    horizontalScrollBar->setSingleStep(1); // Usa -> en lugar de .
+    horizontalScrollBar->setPageStep(10);
+
     ui->sintacticTable->setRowCount(output.size());
     ui->sintacticTable->horizontalHeader()->setStyleSheet(styleSheet);
     for(int i=0; i<output.size(); i++){
@@ -146,14 +154,47 @@ void MainWindow::on_pushButton_clicked()
         ui->sintacticTable->setItem(i,0, new QTableWidgetItem(auxPila));
         ui->sintacticTable->setItem(i,2, new QTableWidgetItem(auxOut));
     }
+
+
     string treeString  = syntacticAnalyzer.getTreeToString();
 
     ui->textBrowser->setPlainText(QString::fromStdString(treeString));
-    for(auto e:syntacticAnalyzer.getTree()){
-        qDebug() << "Index: "<< e.getIndex() << "Token: " << QString::fromStdString(e.getToken()) ;
-        for(auto g:e.getNexts()){
-            qDebug() << "Next: "<< g;
+
+
+    string errors = syntacticAnalyzer.semanticAnalysis();
+    try {
+        ui->textBrowser_2->setPlainText(QString::fromStdString(errors));
+
+        ui->sintacticTable_2->setRowCount(syntacticAnalyzer.getVariablesTable().size());
+        ui->sintacticTable_2->horizontalHeader()->setStyleSheet(styleSheet);
+        int index=0;
+        for(auto e:syntacticAnalyzer.getVariablesTable()){
+            QString variable = QString::fromStdString(e.first);
+            QString tipo = QString::fromStdString(e.second.getTipo());
+            QString ambito = QString::fromStdString(e.second.getAmbito());
+            ui->sintacticTable_2->setItem(index,1, new QTableWidgetItem(tipo));
+            ui->sintacticTable_2->setItem(index,0, new QTableWidgetItem(variable));
+            ui->sintacticTable_2->setItem(index,2, new QTableWidgetItem(ambito));
+            index++;
+            qDebug() << "Variable: "<< variable << " Tipo: " << tipo << "Ambito: " << ambito  ;
         }
+        index=0;
+        ui->sintacticTable_3->setRowCount(syntacticAnalyzer.getVariablesTable().size());
+        ui->sintacticTable_3->horizontalHeader()->setStyleSheet(styleSheet);
+        for(auto e:syntacticAnalyzer.getFunctionsTable()){
+            QString funcion = QString::fromStdString(e.first);
+            QString tipo = QString::fromStdString(e.second.getTipo());
+            QString parametros = QString::fromStdString(e.second.getParametros());
+            ui->sintacticTable_3->setItem(index,1, new QTableWidgetItem(tipo));
+            ui->sintacticTable_3->setItem(index,0, new QTableWidgetItem(funcion));
+            ui->sintacticTable_3->setItem(index,2, new QTableWidgetItem(parametros));
+            qDebug() << "Funcion: "<< funcion << " Tipo: " << tipo << "Ambito: " << parametros  ;
+            index++;
+        }
+    }  catch (exception& e) {
+        QMessageBox::critical(nullptr, "Error", "Se ha producido una excepción: " + QString(e.what()));
     }
+
+
 }
 

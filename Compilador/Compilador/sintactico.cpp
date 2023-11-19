@@ -56,7 +56,7 @@ void Sintactico::analize(){
         qDebug()<<"Proximo Estado: "<<nextState;
 
     }
-    if(!f){this->output.push_back("-1 Not acepted");}
+    if(!f){this->output.push_back("-1 Not acepted"); this->correctAnalice=false;}
     else{
         this->output.push_back("R0 Accepted");
         this->correctAnalice=true;
@@ -94,6 +94,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R1");
 
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
@@ -104,12 +105,14 @@ void Sintactico::setTreeNode(string rule){
         TreeNode nodeAux("<Definiciones>");
         Tree.push_back(nodeAux);
         Tree[Tree.size()-1].setIndex(Tree.size()-1);
+        Tree[Tree.size()-1].setRule("R2");
         this->rulesStack.push_back(Tree[Tree.size()-1]);
     }else if(rule == "R3"){
         TreeNode nodeAux("<Definiciones>");
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R3");
 
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
@@ -123,6 +126,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R4");
 
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
@@ -133,6 +137,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R5");
 
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
@@ -143,6 +148,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R6");
 
         TreeNode idTipo("Tipo");
         Tree.push_back(idTipo);
@@ -180,12 +186,14 @@ void Sintactico::setTreeNode(string rule){
         TreeNode nodeAux("<ListaVar>");
         Tree.push_back(nodeAux);
         Tree[Tree.size()-1].setIndex(Tree.size()-1);
+        Tree[Tree.size()-1].setRule("R7");
         this->rulesStack.push_back(Tree[Tree.size()-1]);
     }else if(rule == "R8"){
         TreeNode nodeAux("<ListaVar>");
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R8");
 
         TreeNode opComa(",");
         Tree.push_back(opComa);
@@ -212,6 +220,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R9");
 
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
@@ -242,61 +251,32 @@ void Sintactico::setTreeNode(string rule){
         Tree[idIndex+1].setIndex(idIndex+1);
         Tree[idIndex].setNext(idIndex+1);
 
+        TreeNode typeParentNode("Tipo");
+        Tree.push_back(typeParentNode);
+        int typeParentIndex = Tree.size()-1;
+        Tree[auxIndex].setNext(typeParentIndex);
+        Tree[typeParentIndex].setIndex(typeParentIndex);
+
+        TreeNode typeNode(stackNodes[stackNodes.size()-6].getToken());
+        Tree.push_back(typeNode);
+        int indexType = Tree.size()-1;
+        Tree[indexType].setIndex(indexType);
+        Tree[typeParentIndex].setNext(indexType);
+
 
         this->rulesStack.push_back(Tree[auxIndex]);
     }else if(rule == "R10"){
         TreeNode nodeAux("<Parametros>");
         Tree.push_back(nodeAux);
         Tree[Tree.size()-1].setIndex(Tree.size()-1);
+        Tree[Tree.size()-1].setRule("R10");
         this->rulesStack.push_back(Tree[Tree.size()-1]);
     }else if(rule == "R11"){
         TreeNode nodeAux("<Parametros>");
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
-
-        TreeNode idTipo("Tipo");
-        Tree.push_back(idTipo);
-        int idTipoIndex = Tree.size()-1;
-        Tree[auxIndex].setNext(idTipoIndex);
-        Tree[idTipoIndex].setIndex(idTipoIndex);
-
-        TreeNode textNodeTipo(stackNodes[stackNodes.size()-3].getToken());
-        Tree.push_back(textNodeTipo);
-        Tree[idTipoIndex+1].setIndex(idTipoIndex+1);
-        Tree[idTipoIndex].setNext(idTipoIndex+1);
-
-        TreeNode idNode("identificador");
-        Tree.push_back(idNode);
-        int idIndex = Tree.size()-1;
-        Tree[auxIndex].setNext(idIndex);
-        Tree[idIndex].setIndex(idIndex);
-
-        TreeNode textNode(stackNodes[stackNodes.size()-1].getToken());
-        Tree.push_back(textNode);
-        Tree[idIndex+1].setIndex(idIndex+1);
-        Tree[idIndex].setNext(idIndex+1);
-
-        Tree[auxIndex].setNext(rulesStack.back().getIndex());
-        rulesStack.pop_back();
-
-        this->rulesStack.push_back(Tree[Tree.size()-1]);
-    }else if(rule == "R12"){
-        TreeNode nodeAux("<ListaParam>");
-        Tree.push_back(nodeAux);
-        Tree[Tree.size()-1].setIndex(Tree.size()-1);
-        this->rulesStack.push_back(Tree[Tree.size()-1]);
-    }else if(rule == "R13"){
-        TreeNode nodeAux("<ListaParam>");
-        Tree.push_back(nodeAux);
-        int auxIndex = Tree.size()-1;
-        Tree[auxIndex].setIndex(auxIndex);
-
-        TreeNode opComa(",");
-        Tree.push_back(opComa);
-        int indexopComa = Tree.size()-1;
-        Tree[indexopComa].setIndex(indexopComa);
-        Tree[auxIndex].setNext(indexopComa);
+        Tree[auxIndex].setRule("R11");
 
         TreeNode idTipo("Tipo");
         Tree.push_back(idTipo);
@@ -323,12 +303,59 @@ void Sintactico::setTreeNode(string rule){
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
 
+        this->rulesStack.push_back(Tree[auxIndex]);
+    }else if(rule == "R12"){
+        TreeNode nodeAux("<ListaParam>");
+        Tree.push_back(nodeAux);
+        Tree[Tree.size()-1].setIndex(Tree.size()-1);
+        Tree[Tree.size()-1].setRule("R12");
         this->rulesStack.push_back(Tree[Tree.size()-1]);
+    }else if(rule == "R13"){
+        TreeNode nodeAux("<ListaParam>");
+        Tree.push_back(nodeAux);
+        int auxIndex = Tree.size()-1;
+        Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R13");
+
+        TreeNode opComa(",");
+        Tree.push_back(opComa);
+        int indexopComa = Tree.size()-1;
+        Tree[indexopComa].setIndex(indexopComa);
+        Tree[auxIndex].setNext(indexopComa);
+
+        TreeNode idTipo("Tipo");
+        Tree.push_back(idTipo);
+        int idTipoIndex = Tree.size()-1;
+        Tree[auxIndex].setNext(idTipoIndex);
+        Tree[idTipoIndex].setIndex(idTipoIndex);
+
+        TreeNode textNodeTipo(stackNodes[stackNodes.size()-3].getToken());
+        Tree.push_back(textNodeTipo);
+        Tree[idTipoIndex+1].setIndex(idTipoIndex+1);
+        Tree[idTipoIndex].setNext(idTipoIndex+1);
+
+
+        TreeNode idNode("identificador");
+        Tree.push_back(idNode);
+        int idIndex = Tree.size()-1;
+        Tree[auxIndex].setNext(idIndex);
+        Tree[idIndex].setIndex(idIndex);
+
+        TreeNode textNode(stackNodes[stackNodes.size()-2].getToken());
+        Tree.push_back(textNode);
+        Tree[idIndex+1].setIndex(idIndex+1);
+        Tree[idIndex].setNext(idIndex+1);
+
+        Tree[auxIndex].setNext(rulesStack.back().getIndex());
+        rulesStack.pop_back();
+
+        this->rulesStack.push_back(Tree[auxIndex]);
     }else if(rule == "R14"){
         TreeNode nodeAux("<BloqFunc>");
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R14");
 
         TreeNode opApertura("{");
         Tree.push_back(opApertura);
@@ -351,6 +378,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R15");
         this->rulesStack.push_back(Tree[auxIndex]);
     }else if(rule == "R16"){
         TreeNode nodeAux("<DefLocales>");
@@ -367,6 +395,8 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R17");
+
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
         this->rulesStack.push_back(Tree[auxIndex]);
@@ -375,6 +405,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R18");
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
         this->rulesStack.push_back(Tree[auxIndex]);
@@ -382,12 +413,14 @@ void Sintactico::setTreeNode(string rule){
         TreeNode nodeAux("<Sentencias>");
         Tree.push_back(nodeAux);
         Tree[Tree.size()-1].setIndex(Tree.size()-1);
+        Tree[Tree.size()-1].setRule("R19");
         this->rulesStack.push_back(Tree[Tree.size()-1]);
     }else if(rule == "R20"){
         TreeNode nodeAux("<Sentencias>");
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R20");
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
@@ -398,6 +431,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R21");
 
         TreeNode idNode("identificador");
         Tree.push_back(idNode);
@@ -431,6 +465,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R22");
 
         TreeNode ifState("if");
         Tree.push_back(ifState);
@@ -465,6 +500,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R23");
 
         TreeNode whileState("while");
         Tree.push_back(whileState);
@@ -496,6 +532,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R24");
 
         TreeNode returnState("return");
         Tree.push_back(returnState);
@@ -512,6 +549,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R25");
 
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
@@ -522,6 +560,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R26");
 
         this->rulesStack.push_back(Tree[auxIndex]);
     }else if(rule == "R27"){
@@ -529,6 +568,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R27");
 
         TreeNode elseState("else");
         Tree.push_back(elseState);
@@ -545,6 +585,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R28");
 
         TreeNode opApertura("{");
         Tree.push_back(opApertura);
@@ -567,6 +608,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R29");
 
         this->rulesStack.push_back(Tree[auxIndex]);
     }else if(rule == "R30"){
@@ -574,6 +616,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R30");
 
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
@@ -584,6 +627,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R31");
 
         this->rulesStack.push_back(Tree[auxIndex]);
     }else if(rule == "R32"){
@@ -591,6 +635,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R32");
 
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
@@ -604,6 +649,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R33");
 
         this->rulesStack.push_back(Tree[auxIndex]);
     }else if(rule == "R34"){
@@ -611,6 +657,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R34");
 
         TreeNode opComa(",");
         Tree.push_back(opComa);
@@ -630,6 +677,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R35");
 
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
@@ -640,6 +688,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R36");
 
         TreeNode idNode("identificador");
         Tree.push_back(idNode);
@@ -657,6 +706,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R37");
 
         TreeNode idNode("Entero");
         Tree.push_back(idNode);
@@ -675,6 +725,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R38");
 
         TreeNode idNode("Entero");
         Tree.push_back(idNode);
@@ -693,6 +744,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R39");
 
         TreeNode idNode("Cadena");
         Tree.push_back(idNode);
@@ -711,6 +763,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R40");
 
         TreeNode idNode("identificador");
         Tree.push_back(idNode);
@@ -744,6 +797,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R41");
 
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
@@ -754,6 +808,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R42");
 
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
@@ -764,6 +819,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R43");
 
         TreeNode opApertura("(");
         Tree.push_back(opApertura);
@@ -786,6 +842,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R44");
 
         TreeNode opSuma("opSuma");
         Tree.push_back(opSuma);
@@ -807,6 +864,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R45");
 
         TreeNode opNot("opNot");
         Tree.push_back(opNot);
@@ -828,6 +886,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R46");
 
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
@@ -854,6 +913,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R47");
 
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
@@ -880,6 +940,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R48");
 
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
@@ -906,6 +967,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R49");
 
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
@@ -932,6 +994,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R50");
 
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
@@ -953,11 +1016,12 @@ void Sintactico::setTreeNode(string rule){
         rulesStack.pop_back();
 
         this->rulesStack.push_back(Tree[auxIndex]);
-    }else if(rule == "R50"){
+    }else if(rule == "R51"){
         TreeNode nodeAux("<Expresion>");
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R51");
 
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
@@ -984,6 +1048,7 @@ void Sintactico::setTreeNode(string rule){
         Tree.push_back(nodeAux);
         int auxIndex = Tree.size()-1;
         Tree[auxIndex].setIndex(auxIndex);
+        Tree[auxIndex].setRule("R52");
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
         this->rulesStack.push_back(Tree[auxIndex]);
@@ -999,7 +1064,7 @@ vector<TreeNode> Sintactico::getTree(){
 }
 
 string Sintactico::getTreeToString(){
-    if(!correctAnalice){return "Error";}
+    if(!correctAnalice){return "An error has ocurred!";}
     string ans;
     int start = rootSintactico.getIndex();
     stack<pair<int,int>> dfs;
@@ -1008,9 +1073,13 @@ string Sintactico::getTreeToString(){
         pair<int,int> aux = dfs.top();
         dfs.pop();
         for(int i =0; i<aux.second; i++){
-            ans+="\t";
+            for(int i=0; i<4; i++){
+                ans+=" ";
+            }
         }
         ans+=to_string(aux.second);
+        ans+=" ";
+        ans+=Tree[aux.first].getRule();
         ans+=" ";
         ans+=Tree[aux.first].getToken();
         ans+="\n";
@@ -1019,4 +1088,161 @@ string Sintactico::getTreeToString(){
         }
     }
     return ans;
+}
+
+string Sintactico::semanticAnalysis(){
+    string errors ="";
+    if(!correctAnalice){
+        errors+="Error en el analisis sintactico";
+        return errors;
+    }
+    int start = rootSintactico.getIndex();
+    stack<pair<int,int>> dfs;
+    dfs.push({start,0});
+    string ambito="";
+    int lasAmbitoIndex = 0;
+    while(!dfs.empty()){
+        pair<int,int> aux = dfs.top();
+        dfs.pop();
+        if(aux.second <= lasAmbitoIndex){
+            lasAmbitoIndex =aux.second;
+            ambito="";
+        }
+        if(Tree[aux.first].getRule() == "R9"){
+            int next;
+            string id;
+            string tipo;
+            for(auto e:Tree[aux.first].getNexts()){
+                if(Tree[e].getToken() == "identificador"){
+                    vector<int> aux = Tree[e].getNexts();
+                    id = Tree[aux[0]].getToken();
+                }
+                if(Tree[e].getToken() == "Tipo"){
+                    vector<int> aux = Tree[e].getNexts();
+                    tipo = Tree[aux[0]].getToken();
+                }
+                if(Tree[e].getToken() == "<Parametros>"){
+                    next = e;
+                }
+            }
+            if(this->functions.count(id) != 0){
+                errors+="\n";
+                errors+="La funcion "+id+" ya ha sido definida anteriormente, se esta intentando definir en mas de una ocasion";
+            }else if(this->variables.count(id) != 0){
+                errors+="\n";
+                errors+="La funcion "+id+" ya ha sido definida anteriormente como variable, se esta intentando definir en mas de una ocasion";
+            }else{
+                this->functions[id].setTipo(tipo);
+            }
+            qDebug() << QString::fromStdString(tipo) << " "<< QString::fromStdString(id) << " "<< next;
+            DefFuncSemtantic(next, id, errors);
+            ambito = id;
+            lasAmbitoIndex = aux.second;
+        }
+
+        if(Tree[aux.first].getRule() == "R6" || Tree[aux.first].getRule() == "R11"){
+            int next;
+            string tipo;
+            string id;
+            for(auto e:Tree[aux.first].getNexts()){
+                if(Tree[e].getToken() == "identificador"){
+                    vector<int> aux = Tree[e].getNexts();
+                    id = Tree[aux[0]].getToken();
+                }
+                if(Tree[e].getToken() == "Tipo"){
+                    vector<int> aux = Tree[e].getNexts();
+                    tipo = Tree[aux[0]].getToken();
+                }
+                if(Tree[e].getToken() == "<ListaVar>" || Tree[e].getToken() == "<ListaParam>"){
+                    next = e;
+                }
+            }
+            if(this->variables.count(id) != 0){
+                errors+="\n";
+                errors+="La variable "+id+" ya ha sido definida anteriormente, se esta intentando definir en mas de una ocasion";
+            }else if(this->functions.count(id) != 0){
+                errors+="\n";
+                errors+="La variable "+id+" ya ha sido definida como funcion anteriormente, se esta intentando definir en mas de una ocasion";
+            }else{
+                if(ambito==""){
+                    this->variables[id].setAmbito("#");
+                }else{
+                    this->variables[id].setAmbito(ambito);
+                }
+                this->variables[id].setTipo(tipo);
+            }
+
+
+            qDebug() << QString::fromStdString(tipo) << " "<< QString::fromStdString(id) << " "<< next;
+            DefVarSemtantic(next, tipo, ambito, errors);
+        }
+
+        for(auto e:Tree[aux.first].getNexts()){
+            dfs.push({e,aux.second+1});
+        }
+    }
+}
+void Sintactico::DefVarSemtantic(int next, string type, string ambito, string& errors){
+    if(Tree[next].getNexts().size() == 0){
+        return;
+    }
+    string id;
+    for(auto e:Tree[next].getNexts()){
+        if(Tree[e].getToken() == "identificador"){
+            vector<int> aux = Tree[e].getNexts();
+            id = Tree[aux[0]].getToken();
+        }
+        if(Tree[e].getToken() == "<ListaVar>" || Tree[e].getToken() == "<ListaParam>"){
+            next = e;
+        }
+    }
+    if(this->variables.count(id) != 0){
+        errors+="\n";
+        errors+="La variable "+id+" ya ha sido definida anteriormente, se esta intentando definir en mas de una ocasion";
+    }else{
+        if(ambito==""){
+            this->variables[id].setAmbito("#");
+        }else{
+            this->variables[id].setAmbito(ambito);
+        }
+        this->variables[id].setTipo(type);
+    }
+
+    DefVarSemtantic(next, type, ambito, errors);
+}
+
+map<string, variablesNode> Sintactico::getVariablesTable(){
+    return this->variables;
+}
+void Sintactico::DefFuncSemtantic(int next, string id, string &errors){
+    if(Tree[next].getNexts().size() == 0){
+        return;
+    }
+    string auxParam = this->functions[id].getParametros();
+    string auxid, auxtipo;
+    int auxnext=0;
+    for(auto e:Tree[next].getNexts()){
+        if(Tree[e].getToken() == "identificador"){
+            vector<int> aux = Tree[e].getNexts();
+            auxid = Tree[aux[0]].getToken();
+        }
+        if(Tree[e].getToken() == "Tipo"){
+            vector<int> aux = Tree[e].getNexts();
+            auxtipo = Tree[aux[0]].getToken();
+        }
+        if(Tree[e].getToken() == "<ListaParam>"){
+            auxnext = e;
+        }
+    }
+    auxParam += auxtipo;
+    auxParam += " ";
+    auxParam += auxid;
+    auxParam += ", ";
+
+    this->functions[id].setParametros(auxParam);
+
+    DefFuncSemtantic(auxnext, id, errors);
+}
+map<string, funcNodes> Sintactico::getFunctionsTable(){
+    return this->functions;
 }
