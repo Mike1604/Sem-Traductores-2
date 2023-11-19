@@ -29,5 +29,14 @@ La cual se analiza lexicamente y posteriormente se realiza el analisis Sintactic
 ## 1er Ejemplo Analisis sintactico:
 ![App Screenshot](https://github.com/Mike1604/Sem-Traductores-2/blob/main/Analizador%20Sintactico/Readme%20data/PrimerGramatica1.JPG?raw=true)
 ![App Screenshot](https://github.com/Mike1604/Sem-Traductores-2/blob/main/Analizador%20Sintactico/Readme%20data/PrimerGramatica2.JPG?raw=true)
+## 1er Ejemplo Arbol sintactico:
+Otra de las caracteristicas incluidas en dicho analizador sintactico es realizar el arbol sintactico de dicho programa a continuacion podemos ver un ejemplo sencillo del arbol sintactico que funciona con la gramatica empleada anteriormente
+![App Screenshot](https://github.com/Mike1604/Sem-Traductores-2/blob/main/Analizador%20Sintactico/Readme%20data/SintacticoArbol1.JPG?raw=true)
+![App Screenshot](https://github.com/Mike1604/Sem-Traductores-2/blob/main/Analizador%20Sintactico/Readme%20data/SintacticoArbol2.JPG?raw=true)
+## 2do Ejemplo Arbol sintactico:
+
+![App Screenshot](https://github.com/Mike1604/Sem-Traductores-2/blob/main/Analizador%20Sintactico/Readme%20data/SintacticoArbol3.JPG?raw=true)
+![App Screenshot](https://github.com/Mike1604/Sem-Traductores-2/blob/main/Analizador%20Sintactico/Readme%20data/SintacticoArbol4.JPG?raw=true)
+
 
 
