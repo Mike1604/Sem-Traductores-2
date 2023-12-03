@@ -9,6 +9,7 @@
 #include "funcnodes.h"
 #include "treenode.h"
 #include <stack>
+#include <fstream>
 using namespace std;
 class Sintactico
 {
@@ -25,6 +26,11 @@ private:
     bool correctAnalice =false;
     map<string, variablesNode> variables;
     map<string, funcNodes> functions;
+    string codigoASM;
+    int variablesASM;
+    int variablesNumASM;
+    string varDeclASM;
+    string codeDeclASM;
     vector<vector<int>> lr1={
                     {0,	0,	0,	0,	5,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	-3,	1,	2,	3,	4,	0,	6,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,},
                     {0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	-1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,},
@@ -271,6 +277,7 @@ public:
     void DefFuncSemtantic(int next, string id, string& errors);
     map<string, funcNodes> getFunctionsTable();
     void clearTables();
+    string getASM();
 };
 
 #endif // SINTACTICO_H

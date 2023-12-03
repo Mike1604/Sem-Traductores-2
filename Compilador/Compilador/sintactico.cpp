@@ -9,6 +9,8 @@ Sintactico::Sintactico(vector<pair<string,int>> tokens)
     this->input.push_back(tokensToString());
     this->pila.push_back(stackToString());
     this->actualState = aux.getState();
+    this->codigoASM="name \"hi\"org 100h\njmp start";
+    this->variablesASM=0;
     analize();
 }
 void Sintactico::analize(){
@@ -671,7 +673,7 @@ void Sintactico::setTreeNode(string rule){
         Tree[auxIndex].setNext(rulesStack.back().getIndex());
         rulesStack.pop_back();
 
-        this->rulesStack.push_back(Tree[Tree.size()-1]);
+        this->rulesStack.push_back(Tree[auxIndex]);
     }else if(rule == "R35"){
         TreeNode nodeAux("<Termino>");
         Tree.push_back(nodeAux);
@@ -1177,9 +1179,140 @@ string Sintactico::semanticAnalysis(){
             DefVarSemtantic(next, tipo, ambito, errors);
         }
 
+        if(Tree[aux.first].getRule() == "R40"){
+            string name;
+            string param;
+            for(auto e:Tree[aux.first].getNexts()){
+                if(Tree[e].getToken() == "identificador"){
+                    vector<int> aux = Tree[e].getNexts();
+                    name = Tree[aux[0]].getToken();
+                }
+            }
+            if(name=="print"){
+                int numArgs=0;
+                int argsIndex=0;
+                for(auto e:Tree[aux.first].getNexts()){
+                    if(Tree[e].getToken() == "<Argumentos>"){
+                        vector<int> args = Tree[e].getNexts();
+                        for(auto auxArgs:args){
+                            if(Tree[auxArgs].getToken() == "<Expresion>"){
+                                argsIndex=auxArgs;
+                                numArgs++;
+                            }
+                            if(Tree[auxArgs].getToken() == "<ListaArgumentos>"){
+                                numArgs+=Tree[auxArgs].getNexts().size();
+                            }
+                        }
+                    }
+                }
+                if(numArgs > 1){
+                    errors+="\n";
+                    errors+="La funcion print solo debe tener un argumento ";
+                }else if(numArgs == 0){
+                    errors+="\n";
+                    errors+="La funcion print debe tener un argumento";
+                }else{
+                    auto auxParam = Tree[argsIndex];
+                    if(auxParam.getNexts().size() > 1){
+                        int op1=0,op2=0;
+                        if(Tree[auxParam.getNexts()[0]].getToken() == "<Expresion>"){
+                            auto auxOp = Tree[auxParam.getNexts()[0]].getNexts()[0];
+                            auxOp = Tree[auxOp].getNexts()[0];
+                            auxOp = Tree[auxOp].getNexts()[0];
+                            op1=stoi(Tree[auxOp].getToken());
+                        }
+                        if(Tree[auxParam.getNexts()[2]].getToken() == "<Expresion>"){
+                            auto auxOp = Tree[auxParam.getNexts()[2]].getNexts()[0];
+                            auxOp = Tree[auxOp].getNexts()[0];
+                            auxOp = Tree[auxOp].getNexts()[0];
+                            op2=stoi(Tree[auxOp].getToken());
+
+                            this->variablesNumASM++;
+                            this->varDeclASM+="\nsumaVar"+to_string(variablesNumASM)+":   db      \"Resultado "+to_string(op1)+" + "+to_string(op2)+": \", 24h";
+
+                            this->variablesNumASM++;
+                            this->varDeclASM+="\nnum"+to_string(variablesNumASM)+"    dw      "+to_string(op1);
+                            this->variablesNumASM++;
+                            this->varDeclASM+="\nnum"+to_string(variablesNumASM)+"    dw      "+to_string(op2);
+
+                            this->variablesNumASM++;
+                            this->varDeclASM+="\nresultado"+to_string(variablesNumASM)+" dw    ?";
+
+                            this->codeDeclASM+="\nmov     ax, [num"+to_string(variablesNumASM-2)+"]";
+                            this->codeDeclASM+="\nadd     ax, [num"+to_string(variablesNumASM-1)+"]";
+                            this->codeDeclASM+="\nmov     [resultado"+to_string(variablesNumASM)+"], ax";
+
+                            this->codeDeclASM+="\nmov     dx, sumaVar"+to_string(variablesNumASM-3)+"\nmov     ah, 09h \nint     21h";
+
+                            this->codeDeclASM+="\nmov     ax, [resultado"+to_string(variablesNumASM)+"] \ncall    print_number \nmov     ah, 0 \nint     16h\n";
+
+                        }
+                    }else{
+                        auxParam = Tree[auxParam.getNexts()[0]];
+                        auxParam = Tree[auxParam.getNexts()[0]];
+                        if(auxParam.getToken() == "Cadena"){
+                            string value = Tree[auxParam.getNexts()[0]].getToken();
+                            this->variablesASM++;
+                            this->varDeclASM+="\nmsg"+to_string(this->variablesASM)+":    db      "+value+ ", 0Dh,0Ah, 24h\n";
+                            this->codeDeclASM+="mov     dx, msg"+to_string(this->variablesASM)+"  ; \nmov     ah, 09h  ; \nint     21h\n";
+                        }
+                    }
+                }
+            }
+
+        }
+
         for(auto e:Tree[aux.first].getNexts()){
             dfs.push({e,aux.second+1});
         }
+    }
+    this->codigoASM+=varDeclASM;
+    this->codigoASM+="\nstart: \n";
+    this->codigoASM+=codeDeclASM;
+    this->codigoASM+="ret";
+    this->codigoASM += R"(
+    print_number:
+            ; Esta rutina imprime un número en la pantalla
+            ; Entrada: ax = número a imprimir
+            ; Salida: Ninguna
+
+            mov     cx, 10  ; Inicializar el divisor (10)
+            mov     bx, 0   ; Inicializar el acumulador de dígitos
+
+            convertir_digito:
+                xor     dx, dx  ; Limpiar el registro dx
+                div     cx      ; Dividir ax por 10, el cociente en ax, el residuo en dx
+                add     dl, '0' ; Convertir el dígito a carácter ASCII
+                push    dx      ; Empujar el dígito en la pila
+                inc     bx      ; Incrementar el contador de dígitos
+
+                test    ax, ax  ; Verificar si ax es cero (fin de la conversión)
+                jnz     convertir_digito ; Si no es cero, continuar la conversión
+
+            imprimir_digito:
+                pop     dx      ; Sacar el dígito de la pila
+                mov     ah, 02h ; Función de impresión de un solo carácter
+                int     21h     ; Imprimir el dígito
+
+                dec     bx      ; Decrementar el contador de dígitos
+                jnz     imprimir_digito ; Si hay más dígitos, continuar imprimiendo
+            mov     ah, 0Eh   ; Función de impresión de carácter en TTY
+            mov     al, 0Dh   ; Carácter de retorno de carro
+            int     10h       ; Llamada al servicio de interrupción de video
+
+            mov     al, 0Ah   ; Carácter de avance de línea
+            int     10h       ; Llamada al servicio de interrupción de video
+
+            ret
+    )";
+    const string nombreArchivo = "code.asm";
+    ofstream archivoSalida(nombreArchivo);
+    if (archivoSalida.is_open()) {
+       archivoSalida << codigoASM;
+       archivoSalida.close();
+
+    } else {
+        errors+="Error al abrir el archivo.";
     }
 }
 void Sintactico::DefVarSemtantic(int next, string type, string ambito, string& errors){
@@ -1245,4 +1378,7 @@ void Sintactico::DefFuncSemtantic(int next, string id, string &errors){
 }
 map<string, funcNodes> Sintactico::getFunctionsTable(){
     return this->functions;
+}
+string Sintactico::getASM(){
+    return this->codigoASM;
 }
